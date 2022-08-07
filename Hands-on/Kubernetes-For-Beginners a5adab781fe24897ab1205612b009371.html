@@ -1,0 +1,853 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Kubernetes-For-Beginners</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="0f3d73de-342d-448e-a5e9-b9314d88699e" class="page sans"><header><h1 class="page-title">Kubernetes-For-Beginners</h1></header><div class="page-body"><p id="947e7816-d8d9-4981-9a1c-baa33d2445e2" class="">Kubernetes is container orchestration technology to automatically deploy and manage the hundreds, thousands of container in cluster environment.</p><p id="fccc030c-f838-43fa-9da8-26f30b665e5c" class="">
+</p><p id="4a7ba7b3-6d38-40b4-9363-292605859886" class=""><strong>Container Orchestration :</strong></p><p id="aa5b07ab-be1a-4d2e-b31b-35815ae0f895" class="">Automatically deploying and managing containers is known is CR.</p><p id="6c806207-c19e-46d0-96f8-90366a5c3ec3" class="">
+</p><p id="965a566c-c079-4e16-a080-f79110948062" class=""><strong>Kubernetes Advantages :</strong></p><p id="1a5b94bc-e6b6-4d20-b366-1abdeb65ab4b" class="">
+</p><p id="1be9b4f8-2a22-45d4-b1e3-1baeff68deb5" class=""><strong>Kubernetes Architecture :</strong></p><ol type="i" id="a6255329-bc0c-4487-a044-277197951ee2" class="numbered-list" start="1"><li><strong>Node</strong> - Node is a machine - physical or virtual on which kubernetes is installed. Node is a worker machine where container is lunched by kubernetes.</li></ol><ol type="i" id="d4962515-03ad-485a-8c8a-57408fb0978a" class="numbered-list" start="2"><li><strong>Cluster</strong> - Cluster is set of nodes group together. If in case your application fails on one node, it is still accessible on other node and it also helps in balancing the node. Master is responsible for managing your cluster nodes.</li></ol><ol type="i" id="96393c25-66da-4eee-8646-7216e33309ab" class="numbered-list" start="3"><li><strong>Master</strong> - It’s another node with kubernetes installed on it and configured as Master node. It is responsible for managing the cluster nodes, monitoring nodes and when a node fails, it is responsible to move the load to another node.</li></ol><p id="6b9895f9-6f56-4558-81a8-3b9d8e4cb090" class="">
+</p><p id="fda4ca24-d776-4b56-8aaf-894df85526b0" class=""><strong>Kubernetes Components :</strong></p><p id="72b67a2d-dd3d-491b-a9a7-b2b4d37dbb86" class="">When user install the kubernetes on the node, actually following components will be installed on the node.</p><ol type="i" id="0067bf7e-7264-4292-8bfe-1d1edcb7b784" class="numbered-list" start="1"><li><strong>API Server</strong> - It acts as a front-end for kubernetes. Users, management devices and CLI all talks  API server to interact with kubernetes cluster.</li></ol><ol type="i" id="7fbe0002-bb33-4b5b-b473-41f1c1dbded5" class="numbered-list" start="2"><li><strong>etcd / etcd keystore </strong>- It is distributed, reliable key-value store used by kubernetes to manage the data used to manage the cluster. When user has multiple nodes and multiple masters in the clusters , <strong>etcd </strong>store all that the information on all the nodes in a cluster in distributed manner. Etcd is responsible for implementing log within the cluster ensuring that there is no conflicts between the masters.</li></ol><ol type="i" id="c56d2e71-64e0-4a5c-b857-c2b6ccdc510b" class="numbered-list" start="3"><li><strong>kubelet </strong>- It is agent that runs on each node of the cluster. The agent is responsible to make to the containers are running on each node as expected.</li></ol><ol type="i" id="ac60b9f5-81bc-45bd-b90f-8c2838aaaad3" class="numbered-list" start="4"><li><strong>Container Runtime </strong>- CR is underlying software the is used to run containers. Example, dockor, rkt.</li></ol><ol type="i" id="8c6c9e86-17d9-4f46-a761-b8a5a1aa34fd" class="numbered-list" start="5"><li><strong>Controller </strong>- Brain beyond orchestration. They are responsible for noticing and responding when nodes, container or endpoint goes down. Controller makes decision to to bring up new containers  in such cases. </li></ol><ol type="i" id="f1934fa6-b23c-4a95-a86c-ec89f83a12be" class="numbered-list" start="6"><li><strong>Scheduler </strong>- It is responsible for distributing work/ containers across all nodes. It looks for newly created containers and assign them to nodes.</li></ol><p id="cff08eac-1402-478b-a055-4f867f103aa8" class="">
+</p><p id="f3afbe5c-80f1-447b-938b-cb1add1bccbb" class=""><strong>Master vs Worker nodes : </strong></p><p id="0ce8c40b-ef6d-4d50-8ed1-856b164e3733" class="">How does one server become master and other is slave ?</p><p id="a0dab86c-9ad6-4d44-8083-2c359c0e365f" class="">On the worker node containers are hosted i.e <strong>Container Runtime engine</strong>. For example, Docker containers. It has <strong>kubelet</strong> agent that is responsible for interacting with master to provide health information of the worker node and carry out the action requested by master node.</p><p id="c69f5659-9bc7-4eaa-8ee7-f896bc86f55a" class="">
+</p><p id="f56a54d8-4b3f-4ad3-936b-42cb59b13a8b" class="">Master server has <strong>API server.</strong> All the information stored in key-value store on the master. Key-value store is based on <strong>etcd </strong>framework. Master also has <strong>Controller </strong>and <strong>Scheduler.</strong></p><p id="457fb66b-d0d3-4a15-9294-60e7a8468f37" class="">
+</p><figure id="a5adab78-1fe2-4897-ab12-05612b009371" class="image"><a href="Kubernets_MW.png"><img style="width:576px" src="Kubernets_MW.png"/></a></figure><p id="779b3c87-42c4-4a6f-92bc-64984dcaea4d" class="">
+</p><p id="94f6d755-fa55-463f-9045-de6f6092e5e1" class=""><strong>Kubectl :</strong></p><p id="8acebcd1-98a6-4e66-ac35-59d4a937fab9" class="">Command-Line tool used to deploy and manage apps on kubernetes cluster. To get cluster information and status of other nodes and many more information of cluster.</p><p id="f94c5c41-ee7c-424e-b44f-3fbf006aff5b" class="">Example : kubectl run image_name</p><h1 id="e00cf267-ea33-41b7-8f93-e5f1c7de6066" class=""><strong>Minikube</strong></h1><p id="30bdeb6e-e435-4cfe-afaf-112a5090a916" class="">Minikube is <strong>a tool that lets you run Kubernetes locally</strong>. minikube runs a single-node Kubernetes cluster on your personal computer (including Windows, macOS and Linux PCs) so that you can try out Kubernetes, or for daily development work.</p><p id="51770804-7ab4-4284-b17c-99ecfc130d79" class="">
+</p><p id="6a362bab-0e6d-4c8b-9141-9afafc0198fd" class=""><strong>Important commands for kubectl, minikube, virtualbox setup on your personal computer -</strong></p><p id="d815e708-4212-4106-a0ce-1c5fe505b07e" class="">
+</p><pre id="362d8500-4a24-4cb6-8ace-4c8b52732131" class="code code-wrap"><code>  mkdir learn-kubernetes
+  cd learn-kubernetes/
+  curl -LO &quot;https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl&quot;
+  chmod +x kubectl
+  sudo mv ./kubectl /usr/local/bin/kubectl
+  cd
+  kubectl version
+  kubectl version</code></pre><hr id="4f441db4-31a7-443f-9f71-6ecdfecc27e3"/><p id="16780eb9-488b-4f0a-b4f9-c0f4856fc5e1" class="">Install virtualbox - </p><pre id="ee632106-d237-4fa3-a567-7bdc4be8b22d" class="code code-wrap"><code>sudo apt update
+sudo apt install virtualbox</code></pre><hr id="5762b39c-d15a-4aad-ac2e-8b9ec802f6c7"/><pre id="133533bf-e0a6-4540-95c1-3e73c99ad6c3" class="code code-wrap"><code>  grep -E --color &#x27;vmx|svm&#x27; /proc/cpuinfo
+  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+  sudo install minikube-linux-amd64 /usr/local/bin/minikube
+  chmod +x minikube
+  sudo install minikube-linux-amd64 /usr/local/bin/minikube2011  minikube start --driver=virtualbox
+  minikube status
+  kubectl get nodes
+  kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.4
+  kubectl get deployment
+  kubectl expose deployment hello-minikube --type=NodePort --port=8080
+  minikube service hello-minikube --url
+  kubctl delete services hello-minikube
+  kubectl delete services hello-minikube
+  kubectl get pods
+  kubectl delete deployment hello-minikube
+  kubectl get pods</code></pre><p id="463d4452-d97b-4218-9b0a-ed3fbf855395" class="">
+</p><h1 id="cedc5a61-d6d5-42ed-bb81-42dc9d0fc41b" class=""><strong>Pods</strong></h1><p id="ef09e699-d0c6-4087-8250-9b7afa77bc12" class="">With kubernetes our ultimate aim is to deploy our application in the form of container on a set of machine they are configured as worker  nodes in a cluster. However kubernetes  does not deploy containers directly on worker nodes. The containers are encapsulated into kubernetes object called Pods. <strong>Pod is single instance of  an application. </strong>It’s a smallest object that we can create on kubernetes.</p><p id="c7d6b509-1a4c-478e-8e82-a75399862075" class="">
+</p><p id="da16b386-830f-4ed3-adfe-34f64e3330b6" class="">To scale up we create new PODS on the same node or we can also create on new node. To scale down we can delete them.</p><p id="870abf50-a3ae-4f30-9661-0369d817d216" class="">Pods usually have one to one relationship with containers running your application. To scale up we create new pods and to scale down we delete existing PODS. We do not add new container to existing pods.</p><p id="f753618b-4065-48df-a697-b799d461ab61" class="">Pods <strong>represent the processes running on a cluster</strong>. By limiting pods to a single process, Kubernetes can report on the health of each process running in the cluster. Pods have: a unique IP address (which allows them to communicate with each other).</p><p id="c286d0e6-2fd7-43ff-8301-b692a00398ca" class="">You can create pods from the command line using the below command:</p><p id="d7de29e2-ddd9-4b0c-805b-e5fe60d5d329" class=""><strong>Create an NGINX Pod</strong></p><p id="5d240075-a2b6-44be-9916-434dac37cb39" class=""><code>kubectl run nginx --image=nginx</code></p><h2 id="a3092a1c-5d09-44bb-9eee-0cf8ba5666c1" class="">Multi-Container Pods </h2><p id="f948dd4d-d3be-415f-9347-6b26a537ed55" class="">As discussed so far, Pods usually have one to one relationship with containers. But, we are not restricted to have single container in a Pod. There might be some scenarios like existing container needs a helper container. In such scenarios, we can have multiple containers in a Pod <strong>except container of same kind</strong> and they communicate each other directly since they share same network and storage space.</p><p id="d736eeb0-eb3e-4cfd-be30-953d21362bde" class="">To scale-up the application, it’s always prefer to have separate Pods.</p><p id="91e73e51-f240-4431-866d-b5fb53bbb6d7" class="">
+</p><p id="247ffd54-e0d8-49dd-bf19-d61223f90865" class=""><strong>Reference Links - </strong></p><p id="fd931791-3239-4ba6-b5b6-35119512fc8e" class=""><a href="https://kubernetes.io/docs/concepts/">https://kubernetes.io/docs/concepts/</a></p><p id="4543d773-8582-4876-8e47-8fa8b3403b49" class=""><a href="https://kubernetes.io/docs/concepts/workloads/pods/">https://kubernetes.io/docs/concepts/workloads/pods/</a> </p><h2 id="51e30528-7217-4449-9895-745adaf59c6e" class="">Introduction to YAML</h2><p id="3b46718e-7637-4d2f-ae01-f4d061b58085" class="">Kubernetes uses YAML file as inputs for the creation on objects such as PODS, replicaSet, deployment and services etc.</p><h1 id="f43a037c-059a-43ca-9299-228f7bfd82a1" class="">YAML In Kubernetes </h1><p id="f2b74418-def7-471d-94e3-0875131239b2" class=""><strong>pod-definations.yml -</strong> Pod specification are mentioned here</p><p id="b87cd60a-e2af-460e-94b6-d2bd19700457" class=""><strong>apiVersion </strong></p><p id="9333d8c8-3979-4360-b9df-96bbab1f6290" class=""><strong>kind - </strong>Type of object which we want to create . Possible values could be POD, replicaSet, deployment or services.</p><p id="51a9b022-3aa0-46e8-bc04-252cd0f41dda" class=""><strong>metadata</strong> - Data about the object. It can be name, labels etc.</p><p id="3291d1bd-02dd-4c91-9be5-63218111f871" class="">Ex : metadata</p><p id="cd364ad9-9f79-4b85-b0e2-ce056e64dfef" class="">            name : </p><p id="b46ce91e-4ed7-483f-b7a8-e2c368bed7d5" class="">            labels:</p><p id="a1e0e68f-cff3-4b6f-a7a7-f1179e19595b" class="">                    app:</p><p id="2506cf87-2add-4356-8a36-f0432026496e" class="">                    type:</p><p id="7417fb3f-167e-46b8-b748-2f6a111bae5e" class="">Note : Under metadata we can mention only values that kubernetes expect to be i.e predefined properties only. Under labels we can specify or add our won key-value pair but not in metadata hierarchy. </p><p id="db587292-b8f5-42bb-b8f0-b9d0fb56c179" class=""><strong>spec</strong> - It is a dictionary. We specify container under spec</p><p id="813a8376-b40c-442a-9db8-0e0a5987593e" class="">container is a List/ array</p><p id="99360655-1a37-48eb-b715-f5e6339f272d" class="">Ex :</p><p id="f75d9c88-82d8-4bf6-b54f-986be532ca8f" class="">spec:<div class="indented"><p id="40fd7657-0208-4e2c-84ff-3e797ac0b2e8" class="">containers:</p><p id="32a239db-f92c-4cf2-b782-9bb41227c351" class="">name : </p><p id="10f330bb-8782-423f-8b76-8de3694159c8" class="">image</p></div></p><p id="3b8f1407-c545-4b03-813a-4223080b340b" class="">
+</p><p id="c6f2b144-20cd-4601-854c-d494f06deca7" class=""><strong>How to create a pod ?</strong></p><p id="3f791ed2-8091-4dd6-86ac-5de71afbe169" class=""><code>kubectl create -f pod-definations.yml</code></p><p id="ffa4d739-92ac-49c2-a3fa-6db3da982649" class=""><strong>How to see created pod?</strong></p><p id="294ae730-6515-4756-87df-592aae2c5f32" class=""><code>kubectl get pods</code></p><p id="13634a28-b4ad-4e77-b196-ca9faf92653a" class=""><strong>How to get detailed information of pod?</strong></p><p id="ec9dab97-ef26-4813-a25e-aaff9dd7a27e" class=""><code>kubectl describe pod &lt;pod_name&gt;</code></p><p id="b9314ec2-3cf3-4b2c-bc84-03a31908abdc" class=""><strong>How to create a sample pod locally?</strong></p><p id="b086dd4a-d8fc-4e9c-b04a-ee64679c5e9b" class=""><code>minikube start</code></p><p id="2fee3dbf-4af9-4a49-a61e-ec2c6f0f84d7" class=""><code>minikube status —&gt; Running</code></p><p id="0ded8b31-d167-427c-81c6-66412978fccf" class=""><code>vim pod.yaml —&gt; configure / update yaml file and save it</code></p><p id="ecef78a1-04c3-479c-b29b-b3ac1d318d67" class=""><code>kubectl apply -f pod.yaml —&gt; pod will be created</code></p><p id="68579cf3-97e2-47ee-8559-76f71f785177" class=""><code>kubectl get pods —&gt; Verification</code></p><h1 id="0305d248-e59c-4296-98e3-3217c087862a" class="">Hands- On Labs</h1><ol type="1" id="540cc8d0-33ae-4c65-b33a-e32b3287be78" class="numbered-list" start="1"><li>How to create a pod with nginx image?<p id="12b0f728-76c8-4c20-a18d-11322ae682d2" class=""><code>kubectl run nginx -- image=nginx</code></p></li></ol><ol type="1" id="722c46b3-ec03-4b31-879b-6813e1489795" class="numbered-list" start="2"><li>How many pods are created now?<p id="42408571-4bf7-45d1-9575-4c8f2fee9c8c" class=""><code>kubectl get pods</code></p></li></ol><ol type="1" id="fccee883-e90f-4ede-9364-152d4b09cfb5" class="numbered-list" start="3"><li>What is the image used to create the new pods?<p id="45d1b90e-ec00-48c5-b2bc-c90d13bb727f" class=""><code>kubectl describe pod newpods-f6pqw | grep -i image</code></p></li></ol><ol type="1" id="60cbc159-0218-4886-970f-1b81dd7cc994" class="numbered-list" start="4"><li>Which nodes are these pods placed on?<p id="32154bca-96a7-42f6-a89b-e229975260a9" class=""><code>kubectl get pods -o wide</code></p></li></ol><ol type="1" id="7a08e932-25ff-434e-96ce-c9b42b5a423e" class="numbered-list" start="5"><li>How many containers are part of the pod <code>webapp</code>?<p id="9f48c12c-c3d1-4902-b4ac-bda34d1f521a" class=""><code>kubectl get pods webapp</code></p></li></ol><ol type="1" id="c0d616ea-aaae-4d6f-acf4-9254a8d20da6" class="numbered-list" start="6"><li>What images are used in the new <code>webapp</code> pod?<p id="c94c50c6-1697-4953-9240-9e37c4906937" class=""><code>kubectl describe pod webapp</code></p></li></ol><ol type="1" id="3dd62f34-08e6-40c4-b7bb-0cf1fac75345" class="numbered-list" start="7"><li>What is the state of the container <code>agentx</code> in the pod <code>webapp</code>?<p id="db60de6e-37e5-44a2-969b-a2e1b61f3475" class=""><code>kubectl describe pod webapp</code></p></li></ol><ol type="1" id="17877ac6-af30-48eb-8f46-d4266ca1daee" class="numbered-list" start="8"><li>Why do you think the container <code>agentx</code> in pod <code>webapp</code> is in error?<p id="be9dabb1-6ea3-4f6b-a2d1-0788f4250926" class="">Reason will be shown under Events when we execute following cmd - <code>kubectl describe pod webapp</code></p></li></ol><ol type="1" id="e5286244-d466-48f3-bf81-3e9c7d65f440" class="numbered-list" start="9"><li>What does the READY column in the output of the <code>kubectl get pods</code> command indicate?<p id="efd8f656-b85b-49af-aed5-c1668b8315c0" class="">Running containers in the Pod as compare to total containers in the pod.</p></li></ol><ol type="1" id="6d0e1cf7-3158-45fb-9a7c-210804378c40" class="numbered-list" start="10"><li>Delete the <code>webapp</code> Pod.<p id="b18f653d-db2f-41d3-81fd-0521539050b5" class=""><code>kubectl delete pod webapp</code></p></li></ol><ol type="1" id="8215948c-bc35-4cd1-8c9d-4e4683121b8b" class="numbered-list" start="11"><li>Create a new pod with the name <code>redis</code> and with the image <code>redis123</code><p id="bb04b24c-2314-4aa5-a5b1-825cc1f0a051" class=""><code>kubectl run redis --image=redis123</code></p></li></ol><ol type="1" id="bfeb613b-0bd4-49cf-9643-00bf5f9829f8" class="numbered-list" start="12"><li>How to view Pod’s yaml file before creation?<p id="10bb0703-7a12-4dbd-976f-00146afcc73f" class=""><code>kubectl run redis -- image=redis123 -- dry-run=client -o yaml &gt; pod.yaml</code></p><p id="388e5425-18c6-49ff-962b-e73d112bba69" class=""><code>vi pod.yaml</code></p></li></ol><ol type="1" id="31cd7bd1-08b5-462d-90b8-78ba08c72a1f" class="numbered-list" start="13"><li> Create pod using yaml file.<p id="5e474f5a-bdbd-44cc-a48f-6a1282539396" class=""><code>kubectl apply -f &lt;yaml_file_name_with_extention&gt;</code></p></li></ol><ol type="1" id="0d97dac1-7c8e-41ad-9604-193774f9ff5f" class="numbered-list" start="14"><li>Now change the image on this pod to <code>redis</code>.<p id="8fed24a3-b3d0-44ac-a94b-abbaa82e3347" class=""><code>kubectl edit pod redis</code></p><p id="78b35d2b-4cf6-4a6c-86c7-b54fb421ef78" class="">Change image redis123 to redis.</p></li></ol><ol type="1" id="5f6b0a05-d94b-4db6-8281-671897a346ca" class="numbered-list" start="15"><li>Once done, the pod should be in a <code>running</code> state.<p id="119091be-91ba-4844-bedd-64f18b5ac75c" class=""><code>kubectl get pods</code></p></li></ol><h1 id="5619f8a1-76c2-4c24-8dea-2c61b42b43d4" class="">Kubernetes Controllers </h1><p id="07fad80e-4529-47a6-aa17-03f08d3bef65" class="">Controllers are the brain behind the kubernetes. They are the processes that monitors kubernetes objects and respond accordingly.</p><p id="f6f1bece-8dd7-4051-8c44-63f4a6fbdfe6" class="">
+</p><p id="05b5189f-c40a-453a-adaf-d8bc826f740c" class=""><strong>Replication Controller</strong></p><p id="da94a37a-2382-4701-8848-69fb5216a537" class="">Replication controller helps us to run multiple instances of single POD in the kubernetes cluster. Thus providing high availability, load balancing and scaling.</p><p id="fc1f1e1c-c6e9-4740-9880-ac59fd690ced" class="">If any case a single pod fails , we still have our application running on other pod.</p><p id="7ae7c7c5-312d-45bb-8dc1-b8e4af908f0d" class="">
+</p><p id="6b836620-b464-46d2-969c-1839233f822a" class=""><strong>Example</strong> :</p><figure id="24595a47-05b5-4aed-8046-068e659e4b74" class="image"><a href="Untitled.png"><img style="width:466px" src="Untitled.png"/></a></figure><ol type="1" id="1cc64f9f-e169-455b-96ff-bd4d5333c553" class="numbered-list" start="1"><li>How to create replication container?<p id="623eb9fc-2719-46a1-ad45-71712eaff059" class=""><code>kubectl create -f rc-defination.yaml</code></p></li></ol><ol type="1" id="038a9cf1-6c6b-4e45-912f-100edfd2802d" class="numbered-list" start="2"><li>Get list of created replication containers<p id="dfaf6a83-0739-4927-9bfa-d5d4ae947da5" class=""><code>kubectl get replicationcontroller</code></p></li></ol><ol type="1" id="d037504e-9395-4ff0-a773-1716f9119a61" class="numbered-list" start="3"><li>Get pods created by replication container<p id="0f121a5f-0c93-4d0e-b038-f2159ee7c420" class=""><code>kubectl get pods</code></p><p id="a0b4df0d-1f17-4881-ac94-d6755eaa8efc" class="">
+</p></li></ol><p id="0f46f57a-b147-4c4c-9fb9-ea965cc84d81" class=""><strong>ReplicaSet</strong> is newer version of Replication Controller with fewer modification</p><figure id="3bac41a0-6a4e-40f3-aeac-8ea0ee9ac8fb" class="image"><a href="Untitled%201.png"><img style="width:464px" src="Untitled%201.png"/></a></figure><p id="f690222d-cf43-455f-89dd-b41588ee2c54" class=""><strong>Selector</strong> : Selector set helps to identify which pods falls under it. We need to mention this explicitly because ReplicaSet manages PODs created before creation of ReplicaSet.</p><h2 id="6b7a562d-81b2-4079-8c1a-78c91ff00434" class="">Notes :</h2><ol type="1" id="9ad59c1d-b3ca-446b-8904-a57c4c92a923" class="numbered-list" start="1"><li>Why do we need Labels for PODs and Object in kubernetes?</li></ol><p id="d992dcfc-c328-43f7-ae6f-656ad23bac40" class="">       Labelling PODs helps Replicaset to filter or identified the PODs those are monitoring by   Replicaset.</p><ol type="1" id="58dd3614-e2e7-4c98-a275-f1eee1904e37" class="numbered-list" start="2"><li>Delete all replicaset and underlying PODs<p id="9e0b3170-80cb-4486-96f1-f15691116bfb" class=""><code>kubectl delete replicaset &lt;replica_set_name&gt;</code></p></li></ol><ol type="1" id="7f068cd6-96b9-496d-b606-270851e386bc" class="numbered-list" start="3"><li>How to scale replicaset?<p id="c76d5721-bda4-414d-8870-40d9d56eb775" class="">They are multiple ways,</p><p id="f616c8c1-2cd9-441c-946b-7c5c69bc63bd" class="">(a). <div class="indented"><p id="021a2568-c1ef-45b6-ba3b-eef5360f2519" class=""> 1. Update the replicas in rc-defincation.yaml file</p><ol type="1" id="3394f1d1-0858-4d0c-b3e8-8150059ab0a1" class="numbered-list" start="2"><li>And run <code>kubectl replace -f rc-defination.yaml</code></li></ol></div></p><p id="0265c305-71dd-45a3-bf5c-fff9bc1a009f" class="">(b).<div class="indented"><p id="009b8ae8-36c7-49d8-8efb-59e1cef1a816" class=""><code>kubectl scale - - replicas=6 -f rc-defination.yaml</code></p></div></p></li></ol><h1 id="5ac4c73c-340b-487d-bb18-02a9e5c8303a" class="">Hands - On Lab</h1><ol type="1" id="1134ca67-cccb-4845-9b6b-198201c9d2ab" class="numbered-list" start="1"><li>replicaset.yaml<p id="6433c183-850c-438d-bbfd-f48be34bac7f" class=""><code>apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+name: frontend
+labels:
+app: guestbook
+tier: frontend
+spec:</code></p><p id="cf94c756-4c10-41a9-81d1-c3a3dd908eae" class=""><code>replicas: 3
+selector:
+matchLabels:
+tier: frontend
+template:
+metadata:
+labels:
+tier: frontend
+spec:
+containers:
+- name: php-redis
+image: </code><code><a href="http://gcr.io/google_samples/gb-frontend:v3">gcr.io/google_samples/gb-frontend:v3</a></code></p><p id="0df21ac1-8cd0-4a81-8015-3083b058e334" class="">
+</p><figure id="d3e6cad5-bde3-4513-94f2-f6c237964ea3" class="image"><a href="Untitled%202.png"><img style="width:635px" src="Untitled%202.png"/></a></figure></li></ol><ol type="1" id="cb403008-d847-47a4-aa3a-558fde11c444" class="numbered-list" start="2"><li>Run <code>kubectl create -f replicaset.yaml</code><p id="4e95622b-c2fe-420c-ae57-c903466105c3" class=""><mark class="highlight-teal">Responce </mark>- replicaset.apps/myapp-replicaset created</p></li></ol><ol type="1" id="662186d3-1ceb-4164-ae4f-72a625466c26" class="numbered-list" start="3"><li><code>kuberctl get replicaset</code><figure id="51e2facc-6c09-4574-a2bc-92aa666224e4" class="image"><a href="Untitled%203.png"><img style="width:635px" src="Untitled%203.png"/></a></figure></li></ol><ol type="1" id="dce79820-d87d-452b-9e4d-57dd062521d5" class="numbered-list" start="4"><li><code>kubetl get pods</code><p id="2347d053-636e-406e-851c-af2a04bb50f9" class="">     </p><figure id="7d7c6c7b-1bd6-46d8-82dc-0738b02f7542" class="image"><a href="Untitled%204.png"><img style="width:859px" src="Untitled%204.png"/></a></figure></li></ol><ol type="1" id="e7f1bb60-edc2-47e9-b605-9fd538e282f2" class="numbered-list" start="5"><li>scale down replicaset</li></ol><p id="5418e5fc-d9b8-467b-93ff-95bbadc8237b" class="">       <div class="indented"><figure id="9a651a96-70f6-42f5-ae70-379329d5a32e" class="image"><a href="Untitled%205.png"><img style="width:1253px" src="Untitled%205.png"/></a></figure></div></p><h1 id="ad446103-a4f2-4095-86f9-f33abf92d9c3" class="">Hands - On Labs</h1><ol type="1" id="625c864f-4e4d-4c87-9be4-8ff4a48bd67c" class="numbered-list" start="1"><li>Number of pods existed in the system -<code> kubectl get pods</code></li></ol><ol type="1" id="aa11e33e-8078-44ea-a843-1f8bde99c26e" class="numbered-list" start="2"><li>Number of replicaset’s existed in the system - <code>kubectl get replicaset</code></li></ol><ol type="1" id="4f377ad0-1ab5-491a-87ea-558dd4331ad1" class="numbered-list" start="3"><li>What is the image used to create the pods in the <code>new-replica-set</code>?</li></ol><p id="e8081586-78d8-403a-af0a-efc0707e4029" class="">      <code>kubectl describe replicaset new-replicas-set</code></p><ol type="1" id="036bc8e9-4bee-4d94-9907-2b01a8f7f398" class="numbered-list" start="4"><li>How many PODs are READY in the <code>new-replica-set</code>?</li></ol><p id="51746729-948f-4343-8b5a-fa510a980870" class="">      <code>kubectl get replicaset</code></p><ol type="1" id="bce66f5a-3844-4cd7-bf69-0ee5579197a1" class="numbered-list" start="5"><li>Why do you think the PODs are not ready?</li></ol><p id="9449b7cc-f121-45e2-8f1f-27b5a2e89d3c" class="">      <code>kubectl get pods</code> and check Event session</p><ol type="1" id="153bfe18-051d-49e3-aec8-7acfcc402d2a" class="numbered-list" start="6"><li>How many pods -<code> kubectl get pods</code></li></ol><ol type="1" id="e29fe11f-6f82-4a9c-8146-604e759694ca" class="numbered-list" start="7"><li>Why are there still 4 PODs, even after you deleted one?</li></ol><p id="ab44f43c-5a94-4947-86ac-fea265b93f57" class="">       Replicaset always ensures that desired pods always run</p><ol type="1" id="fe9691a9-2ef5-4606-9ab7-1345d84c9496" class="numbered-list" start="8"><li>Create a ReplicaSet using the <code>replicaset-definition-1.yaml</code> file located at <code>/root/</code>.</li></ol><p id="9fe43d0c-d3d3-48a2-b023-48ad9569e5a5" class="">       <code>kubectl explain replicaset | grep VERSION</code></p><p id="ab700df7-9d1a-43fd-acc4-c271d852b5c5" class="">       <code>kubectl create -f /root/replicaset-definition-1.yaml</code></p><ol type="1" id="78fd395d-eb13-4267-97d4-a7a90e2af18c" class="numbered-list" start="9"><li>NOTE - After editing .yaml file run apply cammond</li></ol><p id="5a556e4c-4c69-4095-ab67-7663c55636a0" class="">      For example, update the replicaset.ymal file’s replicas and then run <code>kubectl apply -f    replicaset.yaml</code></p><ol type="1" id="18cc8f47-06b9-463c-8585-3bfc6daecf03" class="numbered-list" start="10"><li>Delete replicaset - <code>kubectl delete replicaset &lt;name_of_replicaset&gt;</code></li></ol><ol type="1" id="e2028c14-683a-4982-9f48-a7a1749d644c" class="numbered-list" start="11"><li>Fix the original replica set <code>new-replica-set</code> to use the correct <code>busybox</code> image.<p id="24142f75-e3e4-4a49-bd77-aaebaf478b02" class="">Run the command:<div class="indented"><pre id="270686b5-2bcd-413a-b641-f69c891430dc" class="code code-wrap"><code>kubectl edit replicaset new-replica-set</code></pre><p id="ff53be94-0e37-4fad-890c-2a61e7f5393e" class="">,modify the image name and then save the file.</p><p id="fc7e3a34-9db8-4afe-a011-4b7dd3279ac4" class="">Delete the previous pods to get the new ones with the correct image.</p><p id="cb204b3b-079b-4dfd-8ff2-4c9482dc1bed" class="">For this, run the command:</p><pre id="67ebe3ab-208a-4715-9cd5-f2bbaa0bc946" class="code code-wrap"><code>kubectl get pods
+kubectl delete pod &lt;pod-name&gt;
+kubctl get pods</code></pre><p id="716b965e-3fbe-4c22-b1fb-7f7a9cb19505" class="">New pods with updated image name should be up and running</p></div></p></li></ol><ol type="1" id="844f6310-97df-4208-9bca-8bb574e93500" class="numbered-list" start="12"><li>Scale the ReplicaSet to 5 PODs.</li></ol><p id="e5a955c2-ee78-4889-b310-33482573d69f" class="">      <code>kubectl scale rs new-replica-set --replicas=5</code></p><ol type="1" id="6422da41-04dc-4173-8b09-37dce701e17a" class="numbered-list" start="13"><li>Now scale the ReplicaSet down to 2 PODs.</li></ol><p id="57a90924-07de-4242-b3d0-83e48e6bfff0" class="">      <code>kubectl scale rs new-replica-set --replicas=2</code></p><p id="a5cc21f2-cc87-4e6d-8cd5-b19b29be246f" class="">
+</p><h1 id="96dae700-1842-4229-bf6b-0a341f043fef" class="">Deployments</h1><p id="d5abd7d8-42c4-4ddb-9fd4-ccb393b2a01b" class="">Deployment is kubernetes object that come with kubernetes object and in the highest hierarchy.</p><p id="10c99e80-df9c-47b0-8b8c-8d8ffa778ff1" class="">A deployment allows you to describe an application&#x27;s life cycle, such as which images to use for the app, the number of pods there should be, and the way in which they should be updated.</p><p id="f0c332a9-d274-4b05-a10f-c595fef331c7" class="">
+</p><ol type="1" id="5d0ded8a-a008-42b3-abb8-c358319beede" class="numbered-list" start="1"><li>How many Deployments exist on the system?<p id="e12b5172-ce23-48d4-8561-82dd210885db" class=""><code>kubectl get deployments</code></p></li></ol><ol type="1" id="48b9f6a0-de73-4555-a521-10f18d9bc946" class="numbered-list" start="2"><li>What is the image used to create the pods in the new deployment?<p id="6ad3efae-b4ae-4354-8332-3f65daf03588" class="">Run the command: <code>kubectl describe deployment &lt;deployment-name&gt;</code>
+ and look under the <code>Containers</code>
+ section.</p></li></ol><ol type="1" id="b54f1399-bc3c-4ff8-9884-4f9e6f63e385" class="numbered-list" start="3"><li>Why do you think the deployment is not ready?<p id="d6254073-9232-437a-8244-f2b5c2ad0af7" class="">
+</p></li></ol><ol type="1" id="e6e5b1d2-94ef-41cf-a6a3-bce0d6800065" class="numbered-list" start="4"><li>Create a new Deployment using the <code>deployment-definition-1.yaml</code>
+ file located at <code>/root/</code><p id="e92f547f-35d0-430c-8004-aecf8f25a0a7" class=""><code>kubectl create -f deployment-definition-1.yaml</code></p></li></ol><ol type="1" id="0da97bdf-ee2c-40c7-8038-f8d78c81f7ae" class="numbered-list" start="5"><li>Create a new Deployment with the below attributes using your own deployment definition file.</li></ol><p id="7a0a5b68-b9ac-47c9-bcf8-26dfba4d3eb3" class="">      Name: <code>httpd-frontend</code>;</p><p id="f84685de-7cc1-4ee9-a88f-271e5ccc4255" class="">      Replicas: <code>3</code>;</p><p id="45fc8f85-c2f0-44a9-b897-c9fa6a827e7b" class="">      Image: <code>httpd:2.4-alpine</code></p><p id="2107364a-5adc-494e-a662-2ce7a3ee7798" class="">
+</p><h3 id="642e286c-2e31-464e-ba4b-a606eb10de1c" class="">my-deployment.yaml</h3><p id="4d24137f-372d-4cd4-8bbb-67d8af3c849a" class=""><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: httpd-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: httpd-frontend
+  template:
+    metadata:
+       labels:
+          name: httpd-frontend
+    spec:
+      containers:
+      - name: httpd-frontend
+        image: httpd:2.4-alpine</code></p><p id="48208903-f7dd-4cc5-9881-ef6385e7972d" class="">
+</p><p id="f7c03e7a-1e89-46af-8222-7c29b8a7dc09" class="">Command:</p><p id="69e5d2df-3d73-4cc8-897f-d294bc0f7d48" class=""><code>kubectl create -f my-deployment.yaml</code></p><p id="5935204b-2810-4bfd-bacd-12ccfd5a94b7" class="">
+</p><h1 id="881df3c5-0341-4fe3-b107-f7b3e90612ec" class="">Deployment update and rollout</h1><h1 id="a04bf236-7828-4b89-9a16-6735347ca93b" class="">Demo and Hands-On Labs </h1><ol type="1" id="37716e58-c3af-40b6-b605-b955e69db487" class="numbered-list" start="1"><li>Create deployment file —&gt; deployment.yaml<p id="55739ede-1820-4fea-b680-9ece9cdd4cb5" class=""><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+  labels:
+    tier: frontend
+  spec:
+    selector:
+      matchLabels:
+        app: myapp
+    replicas: 6
+    template:
+      metadata:
+        name: nginx-2
+        labels:
+          app: myapp
+      spec:
+        containers:
+          - name: nginx
+            image: nginx</code></p></li></ol><ol type="1" id="25c6aede-c614-4cc6-85f8-a25f49d9797f" class="numbered-list" start="2"><li>Rollout → <code>kubectl rollout status deployment.apps/myapp-deployment</code></li></ol><ol type="1" id="6898797a-0356-4986-86f2-dd30a1c5ef54" class="numbered-list" start="3"><li>Delete deployment  →<code>kubectl delete deployment myapp-deployment</code></li></ol><ol type="1" id="49a28cd0-7bd8-478c-ae97-eec6f2107475" class="numbered-list" start="4"><li>Record deployment  →<code>kubectl create -f deployment.yaml -- record</code></li></ol><ol type="1" id="e1f75a6f-be6f-494b-8aa2-428b75671f6f" class="numbered-list" start="5"><li>For more detailes of deployment → <code>kubectl describe deployment myapp-deployment</code></li></ol><ol type="1" id="bd7beb79-bc56-4801-baf3-ed060e5d1338" class="numbered-list" start="6"><li>Update the image → <code>kubectl set image deployment myapp-deployment nginx=nginx:1.18-perl</code></li></ol><ol type="1" id="280ccf4a-e9ce-4e2f-8288-6de344340024" class="numbered-list" start="7"><li>Roll back the deployment → <code>kubectl set image deployment myapp-deployment nginx=nginx:1.18-perl</code></li></ol><p id="cf4bfcd9-f7c0-4ddf-a16e-8b235808f792" class="">
+</p><p id="78b35419-f706-4780-b465-a6a12e6b3567" class="">Hands-on Labs:</p><ol type="1" id="1a5a5332-008c-4781-9aab-9f2eea6137b9" class="numbered-list" start="1"><li>Inspect the deployment and identify the number of PODs deployed by it<p id="9065b921-345a-441f-9032-5a8c4821fe6a" class="">Ran<code> kubectl describe deployment</code> and look at Replicaset</p></li></ol><ol type="1" id="6d1f844a-6168-4cae-8e1c-7c561ca9e290" class="numbered-list" start="2"><li>What container image is used to deploy the applications?<p id="9d221b76-afab-4e2b-97d8-8976ac376a1d" class="">Ran<code> kubectl describe deployment</code> and look for image</p></li></ol><ol type="1" id="69d3bc89-ea5f-4ea1-b1de-051556b53f66" class="numbered-list" start="3"><li>Inspect the deployment and identify the current strategy</li></ol><p id="0418f84a-5bd8-434d-8059-19d0212ed5eb" class="">      Ran<code> kubectl describe deployment</code> and look for StrategyType:</p><ol type="1" id="4d2ac567-afa9-40bf-9a4b-9bd96eca47f1" class="numbered-list" start="4"><li>If you were to upgrade the application now what would happen?<p id="c53bb41e-9316-46b7-a2be-fdd20abb08a3" class="">PODs are upgraded few at a time</p></li></ol><ol type="1" id="90306535-f50c-497b-87cc-f0d26ebe2e95" class="numbered-list" start="5"><li>Let us try that. Upgrade the application by setting the image on the deployment to <code>kodekloud/webapp-color:v2</code><p id="bec9dd09-a7e4-4292-adab-0e815457d793" class="">Do not delete and re-create the deployment. Only set the new image name for the existing deployment.</p><p id="0e9b0772-3315-4e92-92bc-ae51c1cd3d74" class=""><code>kubectl edit deployment frontend</code> and update the image name</p></li></ol><ol type="1" id="803ec465-8173-4707-85e6-ab9fd48565a8" class="numbered-list" start="6"><li>Change the deployment strategy to <code>Recreate</code><p id="bdbfe24c-fea4-4204-98d8-86fb5c187e49" class="">Do not delete and re-create the deployment. Only update the strategy type for the existing deployment.</p><p id="a1c028e0-314b-4de3-9908-88b1aea88c93" class="">
+</p><p id="548dc434-33d9-4a6d-838c-9b6035bf7f01" class="">Run the command <code>kubectl edit deployment frontend</code>
+ and modify the required field. Make sure to delete the properties of rollingUpdate as well, set at <code>strategy.rollingUpdate</code>
+</p></li></ol><ol type="1" id="683e9af3-4cf3-437c-a945-8ad622591050" class="numbered-list" start="7"><li>Upgrade the application by setting the image on the deployment to <code>kodekloud/webapp-color:v3</code><p id="dd166030-2d8d-4546-b7a2-f483c4fa4157" class="">Do not delete and re-create the deployment. Only set the new image name for the existing deployment.</p><p id="88f5709c-8988-4227-a4d3-9757e45af917" class="">Run the command</p><pre id="c978dcb6-0700-4c5d-b523-b162e5ee81e1" class="code code-wrap"><code>kubectl edit deployment frontend</code></pre><p id="cd3deb79-6428-4b66-bab5-69ad8fda148e" class="">and modify the image to</p><pre id="a38c089a-cacb-454d-90f0-44637b3dd768" class="code code-wrap"><code>kodekloud/webapp-color:v3
+kubectl get pods</code></pre><p id="57b6d7b8-a5fe-4306-810b-87fa83e4da07" class="">.</p><p id="44645a4b-dcd3-402c-ac74-5221f25bc361" class="">Next, save and exit. The pods should be recreated with the new image.</p><p id="cd30d7e2-449d-4a65-a55b-43ff2d9d737d" class="">Note that all pods will be terminated and recreated simultaneously this time.</p></li></ol><h1 id="702637a7-d2ab-463a-a2a0-e46b308d96d4" class="">Networking In Kubernetes</h1><ul id="1983ed7c-cb99-4d08-8904-b42d4a52363b" class="bulleted-list"><li style="list-style-type:disc">In kubernetes world, IP Address is always to <strong>POD</strong></li></ul><p id="eb113d5f-6c3b-4b9e-86b1-430da56b4aa8" class=""><div class="indented"><p id="3df387a4-d0f5-4922-a7ea-6b57129b964d" class="">When K8s is initially configurated, we create a internal private network and all PODs are attached it. When we deploy multiple PODs, each POD gets it’s won IP address assigned from Private network. PODs can communicate each other using this IP. But, transferring using these IP is may not be a good idea because we need to change it when existing POD destroyed and/or recreated.</p><p id="56751df1-5d21-493f-9bdc-a3aa184c3513" class="">
+</p><p id="ccbe0316-b3f4-4341-bb6b-a5e0a2727275" class=""><strong>Single Node</strong></p><figure id="2f13125a-6f80-4f9b-a1f8-053f75012d8c" class="image"><a href="Untitled%206.png"><img style="width:480px" src="Untitled%206.png"/></a></figure></div></p><p id="f445dac1-7d89-4051-b764-9618801579b5" class="">
+</p><p id="ae7cb667-3f97-4081-a972-95d8952ddbe6" class=""><strong>Cluster Networking</strong></p><ul id="85dc85f5-24f5-4074-a1ea-ca9bbac42526" class="bulleted-list"><li style="list-style-type:disc">All containers/PODs can communicate one another without NAT.</li></ul><ul id="583ade2b-6230-47ad-89ab-cef346f18b0a" class="bulleted-list"><li style="list-style-type:disc">All nodes can communicate with all containers and vice-versa without NAT</li></ul><figure id="24b36dd8-e757-4a61-8843-1cc0eb4a376d" class="image"><a href="Untitled%207.png"><img style="width:528px" src="Untitled%207.png"/></a></figure><h1 id="69389580-4d12-4535-85f0-2030eedb1ead" class="">Kubernetes Services</h1><p id="f3dde081-91d4-46c0-bdf5-2596cc6ba456" class="">Kubernetes Services enable communication between within and outside of the application. That helps application to talk each other and other users. </p><p id="03b163aa-b702-4b8e-87d6-99adf0358a1c" class="">For ex, we have multiple PODs running varies services like frontend, backend and databases.</p><p id="5c60d1b1-3f2a-45cf-9e9d-1407f11cd2cb" class="">Few  group of PODs are responsible for frontend, backend and databases.</p><p id="28442107-cb31-4c95-b574-b484e91116d7" class="">Services are the those who establish communication between each others. Thus, services enable <strong>Microservices</strong> in our application.</p><p id="896d8344-c0c3-4d10-b73c-b0e36b34bbed" class="">
+</p><figure id="8f415533-df77-4268-9bc5-6ec0162469da" class="image"><a href="Untitled%208.png"><img style="width:432px" src="Untitled%208.png"/></a></figure><h1 id="54fe3507-4095-4763-bd3a-50a2b81671f0" class="">Service Types</h1><ol type="1" id="99c078b7-3033-4c6b-83d0-a40a68bfb8bd" class="numbered-list" start="1"><li><strong>NodePort - </strong>Services listen to a POD on the node and forward the request on that pod to a POD running the application. ( Internal)</li></ol><ol type="1" id="f627174b-3ba0-4ae8-81a8-15b66a258da3" class="numbered-list" start="2"><li><strong>ClusterIp - </strong>In this case, a service creates a virtual IP inside the cluster to enable communication between difference services such as set of front-end servers to set of backend servers.</li></ol><ol type="1" id="c4b20810-7cd3-4627-ab56-80339e920933" class="numbered-list" start="3"><li><strong>Loadbalancer -</strong> It provisions load balancer for our application in supported cloud provider. Ex : Distribute load of front-end tier across multiple servers.</li></ol><p id="b6c5248c-69cc-443e-9aca-4d76964eb1b9" class="">
+</p><h1 id="c5aca13c-66ea-40dc-9f70-afd8b2fa753a" class="">1. <strong>Node Port </strong></h1><p id="22d70bae-3a61-4090-b2e9-97a9fdbc5740" class="">      When service mapped to single <strong>POD</strong></p><figure id="812b22d7-c9ec-4795-b1c2-c136c541a3b4" class="image"><a href="Untitled%209.png"><img style="width:576px" src="Untitled%209.png"/></a></figure><p id="1bf0ce58-b433-4dbe-9a2f-44ceb0af3d15" class="">Note : <div class="indented"><p id="3d48cef4-ad6b-4e7a-94a8-af3fd45a9190" class=""> 1. port is mandatory parameter</p><ol type="1" id="760630ce-8721-46df-a8d6-bee26605c6bb" class="numbered-list" start="2"><li>How to link the service to the pod - <em>labels </em>of the pod-defination file should be same as <em>selector </em>of service-definition file</li></ol><ol type="1" id="0e82eb32-1d62-4fa5-ba9a-3af9d289e275" class="numbered-list" start="3"><li>How to create service ?</li></ol><p id="097c9e44-9165-4717-949b-0c6486976d99" class="">      <code>kubectl create -f &lt;service-defincation.yaml&gt;</code></p><ol type="1" id="baf49875-0589-4a75-aafe-88174e751ed4" class="numbered-list" start="4"><li>How to access application now?</li></ol><p id="8374fff0-d2ce-440f-9cd9-57fbc8d4ea83" class="">       <code>&lt;nodeIp&gt;:&lt;nodePort&gt;</code></p><p id="deae78e0-fb9f-447f-a875-05e3b08d0915" class="">
+</p></div></p><h3 id="a891a28d-53ca-47b4-b660-8190f6252f6c" class="">Sample service-defination.yaml</h3><p id="a010592d-0d03-4414-89b5-f84b0327e6b0" class=""><code>apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: NodeType
+  ports: 
+  - targetPort: 80
+    port: 80
+    nodePort: 30008  </code></p><p id="fcc98c03-7550-4ff7-ba1f-6e2aeca554f0" class=""><code>selector:</code></p><p id="afbbb128-e1c7-435a-bea9-d3a4870a5e6b" class=""><code>   app: myapp</code></p><p id="e3c157b4-a0a4-4d9a-add1-185cc5548d9e" class=""><code>   type: front-end</code></p><p id="223b5838-6c7c-4783-94bc-c27545cf5479" class="">
+</p><p id="e5dbce35-bf1f-45cf-b1cd-2527075bd0ea" class=""><strong>Important Notes :</strong></p><p id="08c60b30-b154-45c7-85bc-baee87e63423" class="">A.  How about when multiple PODs are running on Node ?<div class="indented"><p id="ab6d576c-760a-4ae7-aa88-4d13b4ec3897" class=""> 1.  No additional configuration needed.  </p><ol type="1" id="ebb4ad23-778b-4ed2-bb5d-b0d73bc02354" class="numbered-list" start="2"><li>Then,  how load balancing achieved ?</li></ol><p id="7094a870-1017-42f4-b455-cb3b534bf894" class="">      In this case, ( when multiple instances of the application is running on multiple PODs for high availability ) all the PODs are set to <strong>same label( </strong>selector <strong>) with key (</strong>myapp<strong>).</strong></p><p id="d89325f8-1f7b-4613-b50e-c2e3658ab76f" class="">      When the service is created, it looks for matching POD with <strong>label</strong> and founds similar PODs. Service then automatically selects all identical pods and make them as endpoints before an external request coming from the user.</p><p id="f6f7cc24-72fc-4bb9-a636-0831500e25fd" class=""> 3.  Algorithm used for load balancing across those pods - </p><p id="09233a2f-5b08-42a9-9c65-89496d1cfa8f" class="">      <code>Random Session Affinity = yes</code></p><figure id="d94da57c-ac5f-4461-bd82-bff60a10cbba" class="image"><a href="Untitled%2010.png"><img style="width:528px" src="Untitled%2010.png"/></a></figure></div></p><p id="59b56aea-6afc-4c3c-a5ea-5998ae9ab52d" class="">
+</p><p id="84e2b6f2-c0ae-4cbf-9e12-6edd8d3ea599" class="">B.  When POD are distributed multiple nodes of the cluster ?</p><p id="6e555dfc-5686-40d5-8d73-6d72ab177be9" class="">     When we create a service, no need to make any additional configuration. Kubernetes automatically creates the service that expands across multiple nodes in the cluster and map the <strong>targetPort </strong>to the same<strong> nodePort </strong>on the nodes in the cluster<strong>.</strong> In this way, we can access our application<strong> using any IP of the node in the cluster with same port number.</strong></p><p id="171da937-f4c6-4400-a57f-f924b930142c" class=""> </p><figure id="1e5d2167-d6f8-461e-982c-42d1e7f160aa" class="image"><a href="Untitled%2011.png"><img style="width:528px" src="Untitled%2011.png"/></a></figure><h1 id="594678b6-3547-457a-bbd2-16ad825a21d5" class="">Hands - On Experience </h1><ol type="1" id="40383ba6-d13f-41fc-893d-8c59fe2357f8" class="numbered-list" start="1"><li>Example service-defination file<p id="1706eb66-e900-4505-91c0-82be24f15d4c" class=""><code>apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  type: NodePort
+  ports:
+   - port: 80
+     nodePort: 30004
+     targetPort: 80
+  selector:
+     app: myapp</code></p></li></ol><ol type="1" id="38c8fe9c-2716-4be7-ae61-ed7708cacce0" class="numbered-list" start="2"><li>How to create service?</li></ol><p id="182393c0-f147-46b4-9f2c-66a013812a14" class="">      <code> kubectl create -f service-defination.yaml</code></p><ol type="1" id="e95b9ba5-8099-4137-b14f-31593068b289" class="numbered-list" start="3"><li>how to get service url in minikube?</li></ol><p id="595ac422-8429-46a4-8c83-bb8351811b00" class=""><code>       minikube service &lt;selector_lable&gt;-serive —url</code></p><p id="88e3a41f-e91b-439a-b344-76dd818c4249" class="">       Ex:<code> minikube service myapp-service --url</code></p><h1 id="7c77035d-3f37-4138-8ec9-6da80fc35f8d" class="">2. ClusterIP</h1><h1 id="71e04075-fc87-4c52-a935-7ef7a2d00b62" class="">3. LoadBalancer </h1><h1 id="0a2305f7-a45e-49dc-8859-c84b4986a0be" class="">Hands - On Labs</h1><figure id="31aecc91-0f90-4451-88eb-e59b2237e6c3" class="image"><a href="Untitled%2012.png"><img style="width:999px" src="Untitled%2012.png"/></a></figure><p id="86eeb697-5967-4a8c-afcb-25537e447623" class=""><div class="indented"><p id="cee2e437-3daa-42a0-8432-e2b24db548b1" class="">deployment-defination.yaml<div class="indented"><p id="b2d1ffdb-096e-4444-842c-b28d210b2adc" class=""><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-processing-deployment
+  labels:
+    tier: backend
+spec:
+   replicas: 4
+   template:
+     metadata:
+       name: image-processing-pod
+       labels:
+         tier: backend
+     spec:
+      containers:
+      - name: mycustom-image-processing
+        image: someorg/mycustom-image-processing
+      selector:
+        matchLabels:
+          tier: backend</code></p><p id="bf5a8254-6957-419b-a1f4-b13d08372bf7" class="">
+</p><p id="b936d0a5-34e5-48ba-b080-3176f68d77c9" class=""><strong>Answer : service-defination.yaml</strong></p><p id="1cb4077c-ecbc-46d9-b92c-062cd63a2394" class=""><code>apiVersion: v1
+kind: Service
+metadata:
+   name: image-processing
+   labels:
+     app: myapp
+spec:
+type: ClusterIP
+ports:</code></p><p id="158958a9-9275-4cc8-882e-382f924a30bb" class=""><code>  - port: 80
+     targetPort: 8080
+     selector:
+        tier: backend</code></p><p id="62d7c9ab-d6f9-4e67-9124-bce0b9ce43aa" class="">
+</p></div></p></div></p><ol type="1" id="54f5477e-5639-4635-8f3c-2295fbd7ccff" class="numbered-list" start="1"><li>How many Services exist on the system?<p id="dff0e2a8-4535-46f4-8d02-fb99976bcd33" class="">kubectl get service</p></li></ol><ol type="1" id="84860210-90f9-490e-b73e-d2dfc3171c43" class="numbered-list" start="2"><li>What is the type of the  <code>kubernetes</code>service?<p id="b7d4b2e2-0785-44cd-a41f-36c65b9ef968" class="">kubectl get service and look at <code>TYPE</code> in output of </p></li></ol><ol type="1" id="97f7979a-c7ca-4495-bf7f-c7b5aba5bda1" class="numbered-list" start="3"><li>What is the <code>targetPort</code>configured on the <code>kubernetes</code>service?</li></ol><p id="af1c4906-2a33-4a93-8207-a1fbdb37f87e" class="">      kubectl describe service and  look at <code>TargetPort</code></p><figure id="e1a0ebe0-f7ad-4d29-b559-6bc53b469fb9" class="image"><a href="Untitled%2013.png"><img style="width:288px" src="Untitled%2013.png"/></a></figure><ol type="1" id="a61b0c1a-805c-44bd-a94b-e601ebaa90be" class="numbered-list" start="4"><li>How many labels are configured on the <code>kubernetes</code>service?</li></ol><p id="42f1ce4b-4d96-4847-a721-1cc09c8c1b22" class="">      Run the command <code>kubectl describe service </code>and look at Labels.</p><figure id="4b72af49-ef00-4b75-ba63-a667ebc4ca05" class="image"><a href="Untitled%2014.png"><img style="width:288px" src="Untitled%2014.png"/></a></figure><ol type="1" id="3eae91d3-8464-45ac-bc9e-9b859a5d4465" class="numbered-list" start="5"><li>How many Endpoints are attached on the <code>kubernetes</code>
+ service?</li></ol><p id="b5cf586c-5659-4c6e-8d8d-61a5b500f636" class="">       Run the command <code>kubectl describe service </code>and look at Endpoints.</p><figure id="6d43adb3-f0ca-4e3a-a539-7a7649fd8629" class="image"><a href="Untitled%2015.png"><img style="width:288px" src="Untitled%2015.png"/></a></figure><ol type="1" id="d36800ae-e4c1-4e58-ac8a-59ed135fbce4" class="numbered-list" start="6"><li>How many Deployments exist on the system now?<p id="9dfc3b1e-91b6-458f-801d-18a0d9a9b705" class="">kubectl get deploymet</p></li></ol><ol type="1" id="f1c5ddc7-e322-4a60-8e79-6e79b82c379c" class="numbered-list" start="7"><li>What is the image used to create the pods in the deployment?</li></ol><p id="38bb1f4d-e8d1-4954-a535-5c504d7aa0d5" class="">       Run the command <code>kubectl describe deployment</code>and look under the containers section.</p><ol type="1" id="d2dca3fa-77aa-45dc-962b-c429d70622b5" class="numbered-list" start="8"><li>Create a new service to access the web application using the service-definition-1.yaml file</li></ol><p id="4ae6fffd-c682-4db1-88a6-0b029870cdc3" class="">       <code>Name:</code> webappservice</p><p id="0c5a82ba-a5e9-47e3-b726-127e38bb5d96" class="">       <code>Type:</code> NodePort</p><p id="79012dab-0300-4685-863b-dc97326dd79e" class="">       <code>targetPort:</code> 8080</p><p id="5c8a3be2-d21f-4d92-9b3a-2d16bb1a0ad8" class="">       <code>port:</code> 8080</p><p id="f5d85eb8-9ac2-4888-b59a-79644d9dd88e" class="">       <code>nodePort:</code> 30080</p><p id="3768b680-afb6-4841-8884-d349549f9ad9" class="">       <code>selector:</code> simple-webapp</p><p id="55619743-5887-4546-bc41-f2ad1ab8be31" class=""> </p><p id="e1891e8d-9286-4b9a-90ad-6ecf34852743" class=""> Answer : service-defination.yaml<div class="indented"><p id="c33d8eb2-1d13-4a79-8b52-f24d131cdbc3" class=""><code>apiVersion: v1
+kind: Service
+metadata:
+name: webapp-service
+spec:
+type: NodePort
+ports:
+- targetPort: 8080
+port: 8080
+nodePort: 30080
+selector:
+name: simple-webapp</code></p></div></p><p id="a9482293-a40b-4ae2-a12b-3a87b1323d2d" class="">
+</p><p id="988b55d1-845a-4aa6-bd40-b7a98b3ecaab" class="">Run <code>kubectl create -f service-definition-1.yaml</code></p><p id="f1191e60-e3b8-49f4-8b96-62dc9bd62fd3" class="">
+</p><p id="152415a7-4566-48fe-ba72-a965b9da445b" class="">
+</p></div></article></body></html>
